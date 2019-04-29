@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.sadtech.vkbot</groupId>
+    <artifactId>vkbot-core</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <vksdk.ver>0.5.13-SNAPSHOT</vksdk.ver>
+        <log4j.ver>1.2.17</log4j.ver>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.vk.api</groupId>
+            <artifactId>sdk</artifactId>
+            <version>${vksdk.ver}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.ver}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sadtech.bot</groupId>
+            <artifactId>bot-core</artifactId>
+            <version>0.4.3-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Struchkov Mark</name>
+            <email>upagge@mail.ru</email>
+        </developer>
+    </developers>
+
+</project>
