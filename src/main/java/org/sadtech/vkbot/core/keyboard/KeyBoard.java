@@ -8,12 +8,11 @@ import java.util.List;
 
 public class KeyBoard {
 
-    private List<LineKeyBoard> lineKeyBoards;
-    private boolean oneTime;
+    private List<LineKeyBoard> lineKeyBoards = new ArrayList<>();
+    private boolean oneTime = true;
 
-    private KeyBoard() {
-        lineKeyBoards = new ArrayList<>();
-        throw new IllegalStateException();
+    public KeyBoard() {
+
     }
 
     public JsonObject getKeyboard() {

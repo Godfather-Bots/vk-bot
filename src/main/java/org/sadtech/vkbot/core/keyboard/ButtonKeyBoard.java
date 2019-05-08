@@ -4,13 +4,13 @@ import com.google.gson.JsonObject;
 
 public class ButtonKeyBoard {
 
-    private String type;
+    private String type = "text";
     private String payload;
     private String label;
-    private ColorButton color;
+    private ColorButton color = ColorButton.DEFAULT;
 
-    private ButtonKeyBoard() {
-        throw new IllegalStateException();
+    public ButtonKeyBoard() {
+
     }
 
     public JsonObject getButton() {
