@@ -13,9 +13,9 @@ import java.util.Set;
 
 public class MailServiceImpl implements MailService {
 
-    public static final Logger log = Logger.getLogger(MailServiceImpl.class);
+    private static final Logger log = Logger.getLogger(MailServiceImpl.class);
 
-    private MailRepository mailRepository;
+    private final MailRepository mailRepository;
 
     public MailServiceImpl() {
         this.mailRepository = new MailRepositoryList();
@@ -39,9 +39,9 @@ public class MailServiceImpl implements MailService {
         Set<Integer> people = new HashSet<>();
         List<Mail> returnMails = new ArrayList<>();
         for (int i = mails.size() - 1; i >= 0; i--) {
-            if (!people.contains(mails.get(i).getPeerId())) {
+            if (!people.contains(mails.get(i).getPersonId())) {
                 returnMails.add(mails.get(i));
-                people.add(mails.get(i).getPeerId());
+                people.add(mails.get(i).getPersonId());
             }
         }
         return returnMails;
@@ -53,9 +53,9 @@ public class MailServiceImpl implements MailService {
         Set<Integer> people = new HashSet<>();
         List<Mail> returnMails = new ArrayList<>();
         for (Mail mail : mails) {
-            if (!people.contains(mail.getPeerId())) {
+            if (!people.contains(mail.getPersonId())) {
                 returnMails.add(mail);
-                people.add(mail.getPeerId());
+                people.add(mail.getPersonId());
             }
         }
         return returnMails;

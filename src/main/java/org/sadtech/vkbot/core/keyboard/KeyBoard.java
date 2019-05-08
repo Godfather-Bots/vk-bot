@@ -8,20 +8,12 @@ import java.util.List;
 
 public class KeyBoard {
 
-    private List<LineKeyBoard> lineKeyBoards = new ArrayList<>();
+    private List<LineKeyBoard> lineKeyBoards;
     private boolean oneTime;
 
-    public KeyBoard() {
-
-    }
-
-    public KeyBoard(List<LineKeyBoard> lineKeyBoards, boolean oneTime) {
-        this.lineKeyBoards = lineKeyBoards;
-        this.oneTime = oneTime;
-    }
-
-    public void setOneTime(boolean oneTime) {
-        this.oneTime = oneTime;
+    private KeyBoard() {
+        lineKeyBoards = new ArrayList<>();
+        throw new IllegalStateException();
     }
 
     public JsonObject getKeyboard() {
@@ -37,12 +29,12 @@ public class KeyBoard {
         return keyboard;
     }
 
-    public void addLine(LineKeyBoard lineKeyBoard) {
-        lineKeyBoards.add(lineKeyBoard);
-    }
-
     public static Builder builder() {
         return new KeyBoard().new Builder();
+    }
+
+    public void addLine(LineKeyBoard lineKeyBoard) {
+        lineKeyBoards.add(lineKeyBoard);
     }
 
     public class Builder {
@@ -51,12 +43,12 @@ public class KeyBoard {
 
         }
 
-        public Builder setLineKeyBoard(LineKeyBoard lineKeyBoard) {
+        public Builder lineKeyBoard(LineKeyBoard lineKeyBoard) {
             KeyBoard.this.lineKeyBoards.add(lineKeyBoard);
             return this;
         }
 
-        public Builder setOneTime(boolean oneTime) {
+        public Builder oneTime(boolean oneTime) {
             KeyBoard.this.oneTime = oneTime;
             return this;
         }

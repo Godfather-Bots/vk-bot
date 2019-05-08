@@ -14,11 +14,11 @@ import java.util.Set;
 
 public class MailSubscriber implements EventSubscribe<JsonObject> {
 
-    public static final Logger log = Logger.getLogger(MailSubscriber.class);
+    private static final Logger log = Logger.getLogger(MailSubscriber.class);
 
-    private MailService mailService;
+    private final MailService mailService;
     private Set<Integer> admins = new HashSet<>();
-    private Map<String, EventSubscribe<Message>> eventDistributionMap = new HashMap<>();
+    private final Map<String, EventSubscribe<Message>> eventDistributionMap = new HashMap<>();
 
     public MailSubscriber(MailService mailService) {
         this.mailService = mailService;
@@ -54,10 +54,10 @@ public class MailSubscriber implements EventSubscribe<JsonObject> {
 
     private Mail createMaail(Message message) {
         Mail mail = new Mail();
-        mail.setBody(message.getBody());
+        mail.setMessage(message.getBody());
         mail.setDate(message.getDate());
         mail.setId(message.getId());
-        mail.setPeerId(message.getPeerId());
+        mail.setPersonId(message.getPeerId());
         return mail;
     }
 

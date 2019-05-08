@@ -13,12 +13,12 @@ import org.sadtech.vkbot.core.VkInsertData;
 
 public class MailSenderVk implements Sent {
 
-    public static final Logger log = Logger.getLogger(MailSenderVk.class);
+    private static final Logger log = Logger.getLogger(MailSenderVk.class);
 
-    private VkApiClient vkApiClient;
-    private GroupActor groupActor;
+    private final VkApiClient vkApiClient;
+    private final GroupActor groupActor;
 
-    private VkInsertData vkInsertData;
+    private final VkInsertData vkInsertData;
 
     public MailSenderVk(VkConnect vkConnect) {
         this.vkApiClient = vkConnect.getVkApiClient();

@@ -16,10 +16,10 @@ import java.util.List;
 
 public class VkApi {
 
-    public static final Logger log = Logger.getLogger(String.valueOf(VkApi.class));
+    private static final Logger log = Logger.getLogger(String.valueOf(VkApi.class));
 
-    private VkApiClient vk;
-    private GroupActor actor;
+    private final VkApiClient vk;
+    private final GroupActor actor;
 
     public VkApi(VkConnect vkConnect) {
         vk = vkConnect.getVkApiClient();
@@ -66,7 +66,6 @@ public class VkApi {
     }
 
     private boolean checkCity(List<UserXtrCounters> temp) {
-        log.info("Запрошен город пользователя: " + temp.get(0).getCity().getTitle());
         return temp.get(0).getCity() != null;
     }
 

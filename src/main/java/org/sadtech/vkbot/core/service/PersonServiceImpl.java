@@ -12,10 +12,10 @@ import org.sadtech.vkbot.core.VkConnect;
 
 public class PersonServiceImpl implements PersonService {
 
-    public static final Logger log = Logger.getLogger(PersonServiceImpl.class);
+    private static final Logger log = Logger.getLogger(PersonServiceImpl.class);
 
-    private PersonRepository personRepository;
-    private VkApi vkApi;
+    private final PersonRepository personRepository;
+    private final VkApi vkApi;
 
     public PersonServiceImpl(VkConnect vkConnect) {
         this.personRepository = new PersonRepositoryMap();

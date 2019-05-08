@@ -9,30 +9,26 @@ public class KeyBoardService {
     }
 
     public static KeyBoard keyBoardYesNo() {
-        ButtonKeyBoard yesButton = ButtonKeyBoard.builder().setColor(ColorButton.POSITIVE).setLabel("Да").setPayload("{\"button\": \"yes\"}").build();
-        ButtonKeyBoard noButton = ButtonKeyBoard.builder().setColor(ColorButton.NEGATIVE).setLabel("Нет").setPayload("{\"button\": \"no\"}").build();
+        ButtonKeyBoard yesButton = ButtonKeyBoard.builder().color(ColorButton.POSITIVE).label("Да").payload("{\"button\": \"yes\"}").build();
+        ButtonKeyBoard noButton = ButtonKeyBoard.builder().color(ColorButton.NEGATIVE).label("Нет").payload("{\"button\": \"no\"}").build();
         LineKeyBoard lineKeyBoard = LineKeyBoard.builder().setButtonKeyBoard(yesButton).setButtonKeyBoard(noButton).build();
-        KeyBoard keyBoard = KeyBoard.builder().setLineKeyBoard(lineKeyBoard).build();
-        keyBoard.setOneTime(true);
-        return keyBoard;
+        return KeyBoard.builder().lineKeyBoard(lineKeyBoard).oneTime(true).build();
     }
 
     public static KeyBoard verticalMenuString(List<String> labelButtons) {
-        KeyBoard keyBoard = new KeyBoard();
+        KeyBoard keyBoard = KeyBoard.builder().oneTime(true).build();
         for (String labelButton : labelButtons) {
-            ButtonKeyBoard buttonKeyBoard = ButtonKeyBoard.builder().setLabel(labelButton).setType("text").setPayload("{\"button\": \"" + labelButton + "\"}").build();
+            ButtonKeyBoard buttonKeyBoard = ButtonKeyBoard.builder().label(labelButton).type("text").payload("{\"button\": \"" + labelButton + "\"}").build();
             keyBoard.addLine(LineKeyBoard.builder().setButtonKeyBoard(buttonKeyBoard).build());
         }
-        keyBoard.setOneTime(true);
         return keyBoard;
     }
 
     public static KeyBoard verticalMenuButton(List<ButtonKeyBoard> buttonKeyBoards) {
-        KeyBoard keyBoard = new KeyBoard();
+        KeyBoard keyBoard = KeyBoard.builder().oneTime(true).build();
         for (ButtonKeyBoard buttonKeyBoard : buttonKeyBoards) {
             keyBoard.addLine(LineKeyBoard.builder().setButtonKeyBoard(buttonKeyBoard).build());
         }
-        keyBoard.setOneTime(true);
         return keyBoard;
     }
 }

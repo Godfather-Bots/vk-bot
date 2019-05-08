@@ -7,7 +7,7 @@ import com.vk.api.sdk.httpclient.HttpTransportClient;
 
 public class VkConnect {
 
-    private VkConfig vkConfig;
+    private final VkConfig vkConfig;
 
     private VkApiClient vkApiClient;
     private GroupActor groupActor;

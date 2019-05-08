@@ -9,13 +9,14 @@ import java.util.Map;
 
 public class EventDistributor implements Runnable {
 
-    public static final Logger log = Logger.getLogger(EventDistributor.class);
+    private static final Logger log = Logger.getLogger(EventDistributor.class);
 
-    private RawEventService rawEventService;
-    private Map<String, EventSubscribe> eventDistributionMap = new HashMap<>();
+    private final RawEventService rawEventService;
+    private final Map<String, EventSubscribe> eventDistributionMap = new HashMap<>();
 
     public EventDistributor(RawEventService rawEventService) {
         this.rawEventService = rawEventService;
+        log.info("EventDistributor инициализирован");
     }
 
     public void update() {
@@ -41,6 +42,7 @@ public class EventDistributor implements Runnable {
 
     @Override
     public void run() {
+        log.info("EventDistributor запущен");
         update();
     }
 }

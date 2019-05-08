@@ -16,14 +16,14 @@ import org.sadtech.vkbot.core.VkConnect;
 
 public class EventListenerVk implements Runnable {
 
-    public static final Logger log = Logger.getLogger(EventListenerVk.class);
+    private static final Logger log = Logger.getLogger(EventListenerVk.class);
 
-    private VkApiClient vk;
-    private GroupActor actor;
+    private final VkApiClient vk;
+    private final GroupActor actor;
 
     private static final Integer DEFAULT_WAIT_TIME = 25;
 
-    private RawEventService rawEventService;
+    private final RawEventService rawEventService;
 
     public EventListenerVk(VkConnect vkConnect) {
         vk = vkConnect.getVkApiClient();

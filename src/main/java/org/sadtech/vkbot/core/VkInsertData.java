@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class VkInsertData {
 
-    private VkApi vkApi;
+    private final VkApi vkApi;
 
     public VkInsertData(VkConnect vkConnect) {
         this.vkApi = new VkApi(vkConnect);

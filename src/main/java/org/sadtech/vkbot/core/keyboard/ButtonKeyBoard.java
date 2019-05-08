@@ -4,20 +4,13 @@ import com.google.gson.JsonObject;
 
 public class ButtonKeyBoard {
 
-    private String type = "text";
+    private String type;
     private String payload;
     private String label;
-    private ColorButton color = ColorButton.PRIMARY;
+    private ColorButton color;
 
-    public ButtonKeyBoard() {
-
-    }
-
-    public ButtonKeyBoard(String type, String payload, String label, ColorButton color) {
-        this.type = type;
-        this.payload = payload;
-        this.label = label;
-        this.color = color;
+    private ButtonKeyBoard() {
+        throw new IllegalStateException();
     }
 
     public JsonObject getButton() {
@@ -45,22 +38,22 @@ public class ButtonKeyBoard {
 
         }
 
-        public Builder setColor(ColorButton color) {
+        public Builder color(ColorButton color) {
             ButtonKeyBoard.this.color = color;
             return this;
         }
 
-        public Builder setLabel(String label) {
+        public Builder label(String label) {
             ButtonKeyBoard.this.label = label;
             return this;
         }
 
-        public Builder setPayload(String payload) {
+        public Builder payload(String payload) {
             ButtonKeyBoard.this.payload = payload;
             return this;
         }
 
-        public Builder setType(String type) {
+        public Builder type(String type) {
             ButtonKeyBoard.this.type = type;
             return this;
         }
