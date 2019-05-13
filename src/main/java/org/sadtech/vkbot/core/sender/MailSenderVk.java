@@ -1,9 +1,11 @@
 package org.sadtech.vkbot.core.sender;
 
+import com.google.gson.Gson;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.messages.Keyboard;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.domain.BoxAnswer;
@@ -21,6 +23,7 @@ public class MailSenderVk implements Sent {
     private final GroupActor groupActor;
 
     private final VkInsertData vkInsertData;
+    private final Gson gson = new Gson();
 
     public MailSenderVk(VkConnect vkConnect) {
         this.vkApiClient = vkConnect.getVkApiClient();
@@ -43,7 +46,8 @@ public class MailSenderVk implements Sent {
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
         MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId)).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
         if (boxAnswer.getKeyboard() != null) {
-//            messages.keyboard(boxAnswer.getKeyboard());
+            Keyboard keyBoard = gson.fromJson(boxAnswer.getKeyboard(), Keyboard.class);
+            messages.keyboard(keyBoard);
         } else {
 //            messages.keyboard("{\"buttons\":[],\"one_time\":true}");
         }
@@ -68,7 +72,5 @@ public class MailSenderVk implements Sent {
         }
     }
 
-    private Integer reandomId() {
-        return null;
-    }
+
 }
