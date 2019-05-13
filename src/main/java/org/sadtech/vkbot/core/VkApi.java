@@ -7,9 +7,9 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserMin;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
-import com.vk.api.sdk.queries.users.UserField;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class VkApi {
     public String getUserUniver(Integer id) {
         List<UserXtrCounters> temp = null;
         try {
-            temp = vk.users().get(actor).userIds(String.valueOf(id)).fields(UserField.UNIVERSITIES).execute();
+            temp = vk.users().get(actor).userIds(String.valueOf(id)).fields(Fields.UNIVERSITIES).execute();
         } catch (ApiException | ClientException e) {
             log.error(e);
         }
@@ -55,7 +55,7 @@ public class VkApi {
     public String getUserCity(Integer id) {
         List<UserXtrCounters> temp = null;
         try {
-            temp = vk.users().get(actor).userIds(String.valueOf(id)).fields(UserField.CITY).execute();
+            temp = vk.users().get(actor).userIds(String.valueOf(id)).fields(Fields.CITY).execute();
         } catch (ApiException | ClientException e) {
             log.error(e);
         }

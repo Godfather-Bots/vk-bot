@@ -7,7 +7,7 @@ import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.exceptions.LongPollServerKeyExpiredException;
-import com.vk.api.sdk.objects.groups.responses.GetLongPollServerResponse;
+import com.vk.api.sdk.objects.groups.LongPollServer;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.repository.impl.EventRepositoryQueue;
 import org.sadtech.bot.core.service.RawEventService;
@@ -42,7 +42,7 @@ public class EventListenerVk implements Runnable {
     }
 
     public void listen() throws ClientException, ApiException {
-        GetLongPollServerResponse longPollServer = getLongPollServer();
+        LongPollServer longPollServer = getLongPollServer();
         int lastTimeStamp = longPollServer.getTs();
         while (true) {
             try {
@@ -62,10 +62,10 @@ public class EventListenerVk implements Runnable {
         }
     }
 
-    private GetLongPollServerResponse getLongPollServer() throws ClientException, ApiException {
+    private LongPollServer getLongPollServer() throws ClientException, ApiException {
         log.info("LongPoll сервер инициализирован");
         if (actor != null) {
-            return vk.groups().getLongPollServer(actor).execute();
+            return vk.groups().getLongPollServer(actor, actor.getGroupId()).execute();
         } else {
             throw new NullPointerException("Group actor");
         }

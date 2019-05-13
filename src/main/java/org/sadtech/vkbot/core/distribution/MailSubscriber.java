@@ -37,12 +37,14 @@ public class MailSubscriber implements EventSubscribe<JsonObject> {
         log.info("Дистрибьютор получил событие - сообщение");
         Gson gson = new Gson();
         Message userMessage = gson.fromJson(object, Message.class);
+        log.info(userMessage);
+
         if (userMessage.getPeerId() > 2000000000) {
             if (eventDistributionMap.containsKey("chat")) {
                 eventDistributionMap.get("chat").update(userMessage);
             }
         } else {
-            if (admins.contains(userMessage.getUserId()) && eventDistributionMap.containsKey("terminal")) {
+            if (admins.contains(userMessage.getPeerId()) && eventDistributionMap.containsKey("terminal")) {
                 log.info("Сообщение отправлено в репозиторий команд");
                 eventDistributionMap.get("terminal").update(userMessage);
             } else {
@@ -54,7 +56,7 @@ public class MailSubscriber implements EventSubscribe<JsonObject> {
 
     private Mail createMaail(Message message) {
         Mail mail = new Mail();
-        mail.setMessage(message.getBody());
+        mail.setMessage(message.getText());
         mail.setDate(message.getDate());
         mail.setId(message.getId());
         mail.setPersonId(message.getPeerId());

@@ -37,12 +37,13 @@ public class MailSenderVk implements Sent {
         sendMessage(messagesSendQuery);
     }
 
+    //FIXME: Пофиксить клавиатуры
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
         MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId));
         if (boxAnswer.getKeyboard() != null) {
-            messages.keyboard(boxAnswer.getKeyboard());
+//            messages.keyboard(boxAnswer.getKeyboard());
         } else {
-            messages.keyboard("{\"buttons\":[],\"one_time\":true}");
+//            messages.keyboard("{\"buttons\":[],\"one_time\":true}");
         }
         if (boxAnswer.getLat() != null && boxAnswer.getaLong() != null) {
             messages.lat(boxAnswer.getLat()).lng(boxAnswer.getaLong());
