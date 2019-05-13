@@ -32,9 +32,7 @@ public class VkApi {
         try {
             List<UserXtrCounters> temp = vk.users().get(actor).userIds(String.valueOf(id)).execute();
             JsonParser parser = new JsonParser();
-            JsonObject object = parser.parse(temp.get(0).toString().substring(15)).getAsJsonObject();
-            object.add("last_name", object.get("lastName"));
-            object.add("first_name", object.get("firstName"));
+            JsonObject object = parser.parse(temp.get(0).toString()).getAsJsonObject();
             userMin = gson.fromJson(object, UserMin.class);
         } catch (ApiException | ClientException e) {
             log.error(e);

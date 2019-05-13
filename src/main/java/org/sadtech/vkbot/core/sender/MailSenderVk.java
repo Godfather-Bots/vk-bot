@@ -11,6 +11,8 @@ import org.sadtech.bot.core.sender.Sent;
 import org.sadtech.vkbot.core.VkConnect;
 import org.sadtech.vkbot.core.VkInsertData;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class MailSenderVk implements Sent {
 
     private static final Logger log = Logger.getLogger(MailSenderVk.class);
@@ -28,7 +30,7 @@ public class MailSenderVk implements Sent {
 
     @Override
     public void send(Integer idPerson, String message) {
-        sendMessage(vkApiClient.messages().send(groupActor).peerId(idPerson).message(message));
+        sendMessage(vkApiClient.messages().send(groupActor).peerId(idPerson).message(message).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE)));
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MailSenderVk implements Sent {
 
     //FIXME: Пофиксить клавиатуры
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
-        MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId));
+        MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId)).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
         if (boxAnswer.getKeyboard() != null) {
 //            messages.keyboard(boxAnswer.getKeyboard());
         } else {
@@ -64,5 +66,9 @@ public class MailSenderVk implements Sent {
         } catch (ApiException | ClientException e) {
             log.error(e);
         }
+    }
+
+    private Integer reandomId() {
+        return null;
     }
 }
