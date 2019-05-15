@@ -5,14 +5,21 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.messages.Keyboard;
+import com.vk.api.sdk.objects.messages.*;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.domain.BoxAnswer;
+import org.sadtech.bot.core.domain.keyboard.ButtonColor;
+import org.sadtech.bot.core.domain.keyboard.KeyBoard;
+import org.sadtech.bot.core.domain.keyboard.KeyBoardButton;
+import org.sadtech.bot.core.domain.keyboard.KeyBoardLine;
 import org.sadtech.bot.core.sender.Sent;
 import org.sadtech.vkbot.core.VkConnect;
 import org.sadtech.vkbot.core.VkInsertData;
+import org.sadtech.vkbot.core.convert.KeyBoardConvert;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MailSenderVk implements Sent {
@@ -46,8 +53,7 @@ public class MailSenderVk implements Sent {
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
         MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId)).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
         if (boxAnswer.getKeyboard() != null) {
-            Keyboard keyBoard = gson.fromJson(boxAnswer.getKeyboard(), Keyboard.class);
-            messages.keyboard(keyBoard);
+            messages.keyboard(KeyBoardConvert.convertKeyboard(boxAnswer.getKeyboard()));
         } else {
 //            messages.keyboard("{\"buttons\":[],\"one_time\":true}");
         }
@@ -63,6 +69,9 @@ public class MailSenderVk implements Sent {
         }
         return messages;
     }
+
+
+
 
     private void sendMessage(MessagesSendQuery messages) {
         try {
