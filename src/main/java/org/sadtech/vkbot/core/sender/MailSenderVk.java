@@ -55,7 +55,9 @@ public class MailSenderVk implements Sent {
         if (boxAnswer.getKeyboard() != null) {
             messages.keyboard(KeyBoardConvert.convertKeyboard(boxAnswer.getKeyboard()));
         } else {
-//            messages.keyboard("{\"buttons\":[],\"one_time\":true}");
+            Keyboard keyboard = new Keyboard();
+            keyboard.setOneTime(true);
+            messages.keyboard(keyboard);
         }
         if (boxAnswer.getLat() != null && boxAnswer.getaLong() != null) {
             messages.lat(boxAnswer.getLat()).lng(boxAnswer.getaLong());
