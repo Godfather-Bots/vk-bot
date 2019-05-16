@@ -6,6 +6,7 @@ import org.sadtech.bot.core.repository.MailRepository;
 import org.sadtech.bot.core.repository.impl.MailRepositoryList;
 import org.sadtech.vkbot.core.service.distribution.MailService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,8 +34,8 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public List<Mail> getFirstEventByTime(Integer timeFrom, Integer timeTo) {
-        log.info("Запрошены сообщения " + timeFrom + "-" + timeTo);
+    public List<Mail> getFirstEventByTime(LocalDateTime timeFrom, LocalDateTime timeTo) {
+        log.info("Запрошены сообщения " + timeFrom + " - " + timeTo);
         List<Mail> mails = mailRepository.getMailByTime(timeFrom, timeTo);
         Set<Integer> people = new HashSet<>();
         List<Mail> returnMails = new ArrayList<>();
@@ -48,7 +49,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public List<Mail> getLastEventByTime(Integer timeFrom, Integer timeTo) {
+    public List<Mail> getLastEventByTime(LocalDateTime timeFrom, LocalDateTime timeTo) {
         List<Mail> mails = mailRepository.getMailByTime(timeFrom, timeTo);
         Set<Integer> people = new HashSet<>();
         List<Mail> returnMails = new ArrayList<>();
@@ -62,7 +63,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public List<Mail> getEvent(Integer timeFrom, Integer timeTo) {
+    public List<Mail> getEvent(LocalDateTime timeFrom, LocalDateTime timeTo) {
         log.info("Запрос на получение сообщений в интервале от " + timeFrom + " до " + timeTo);
         return mailRepository.getMailByTime(timeFrom, timeTo);
     }

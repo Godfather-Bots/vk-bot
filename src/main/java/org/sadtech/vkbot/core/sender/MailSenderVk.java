@@ -5,21 +5,16 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.messages.*;
+import com.vk.api.sdk.objects.messages.Keyboard;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.domain.BoxAnswer;
-import org.sadtech.bot.core.domain.keyboard.ButtonColor;
-import org.sadtech.bot.core.domain.keyboard.KeyBoard;
-import org.sadtech.bot.core.domain.keyboard.KeyBoardButton;
-import org.sadtech.bot.core.domain.keyboard.KeyBoardLine;
 import org.sadtech.bot.core.sender.Sent;
 import org.sadtech.vkbot.core.VkConnect;
 import org.sadtech.vkbot.core.VkInsertData;
 import org.sadtech.vkbot.core.convert.KeyBoardConvert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MailSenderVk implements Sent {
@@ -49,7 +44,6 @@ public class MailSenderVk implements Sent {
         sendMessage(messagesSendQuery);
     }
 
-    //FIXME: Пофиксить клавиатуры
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
         MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId)).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
         if (boxAnswer.getKeyboard() != null) {
@@ -57,6 +51,7 @@ public class MailSenderVk implements Sent {
         } else {
             Keyboard keyboard = new Keyboard();
             keyboard.setOneTime(true);
+            keyboard.setButtons(Collections.EMPTY_LIST);
             messages.keyboard(keyboard);
         }
         if (boxAnswer.getLat() != null && boxAnswer.getaLong() != null) {
