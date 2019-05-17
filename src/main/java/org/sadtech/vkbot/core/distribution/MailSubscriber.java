@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.sadtech.bot.core.domain.Mail;
 import org.sadtech.bot.core.domain.attachment.Attachment;
 import org.sadtech.bot.core.domain.attachment.AudioMessage;
-import org.sadtech.vkbot.core.service.distribution.MailService;
+import org.sadtech.bot.core.service.MailService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

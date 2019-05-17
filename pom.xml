@@ -47,9 +47,6 @@
             <version>${bot.core.ver}</version>
         </dependency>
 
-
-
-
     </dependencies>
 
     <developers>
