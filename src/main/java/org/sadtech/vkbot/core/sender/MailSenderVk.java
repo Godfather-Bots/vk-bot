@@ -1,15 +1,21 @@
 package org.sadtech.vkbot.core.sender;
 
+import com.google.gson.Gson;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.messages.Keyboard;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.domain.BoxAnswer;
 import org.sadtech.bot.core.sender.Sent;
 import org.sadtech.vkbot.core.VkConnect;
 import org.sadtech.vkbot.core.VkInsertData;
+import org.sadtech.vkbot.core.convert.KeyBoardConvert;
+
+import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MailSenderVk implements Sent {
 
@@ -19,6 +25,7 @@ public class MailSenderVk implements Sent {
     private final GroupActor groupActor;
 
     private final VkInsertData vkInsertData;
+    private final Gson gson = new Gson();
 
     public MailSenderVk(VkConnect vkConnect) {
         this.vkApiClient = vkConnect.getVkApiClient();
@@ -28,7 +35,7 @@ public class MailSenderVk implements Sent {
 
     @Override
     public void send(Integer idPerson, String message) {
-        sendMessage(vkApiClient.messages().send(groupActor).peerId(idPerson).message(message));
+        sendMessage(vkApiClient.messages().send(groupActor).peerId(idPerson).message(message).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE)));
     }
 
     @Override
@@ -38,11 +45,14 @@ public class MailSenderVk implements Sent {
     }
 
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
-        MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId));
+        MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId).message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId)).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
         if (boxAnswer.getKeyboard() != null) {
-            messages.keyboard(boxAnswer.getKeyboard());
+            messages.keyboard(KeyBoardConvert.convertKeyboard(boxAnswer.getKeyboard()));
         } else {
-            messages.keyboard("{\"buttons\":[],\"one_time\":true}");
+            Keyboard keyboard = new Keyboard();
+            keyboard.setOneTime(true);
+            keyboard.setButtons(Collections.EMPTY_LIST);
+            messages.keyboard(keyboard);
         }
         if (boxAnswer.getLat() != null && boxAnswer.getaLong() != null) {
             messages.lat(boxAnswer.getLat()).lng(boxAnswer.getaLong());
@@ -57,6 +67,9 @@ public class MailSenderVk implements Sent {
         return messages;
     }
 
+
+
+
     private void sendMessage(MessagesSendQuery messages) {
         try {
             messages.execute();
@@ -64,4 +77,6 @@ public class MailSenderVk implements Sent {
             log.error(e);
         }
     }
+
+
 }
