@@ -6,7 +6,7 @@
 
     <groupId>org.sadtech.vkbot</groupId>
     <artifactId>vkbot-core</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.2.0-RELEASE</version>
     <packaging>jar</packaging>
 
     <build>
@@ -23,7 +23,7 @@
     </build>
 
     <properties>
-        <bot.core.ver>0.5.2-SNAPSHOT</bot.core.ver>
+        <bot.core.ver>0.6.0-RELEASE</bot.core.ver>
         <vksdk.ver>0.5.13-SNAPSHOT</vksdk.ver>
         <log4j.ver>1.2.17</log4j.ver>
     </properties>
