@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-public class MailSubscriber extends AbstractBasketSubscribe<JsonObject> {
+public class MailSubscriber extends AbstractBasketSubscribe<JsonObject, Message> {
 
     private static final Logger log = Logger.getLogger(MailSubscriber.class);
 
@@ -25,6 +25,10 @@ public class MailSubscriber extends AbstractBasketSubscribe<JsonObject> {
 
     public MailSubscriber(MailService mailService) {
         this.mailService = mailService;
+        this.convert = (object) -> {
+            Gson gson = new Gson();
+            return gson.fromJson(object.getAsJsonObject("object"), Message.class);
+        };
     }
 
     @Override
@@ -34,11 +38,8 @@ public class MailSubscriber extends AbstractBasketSubscribe<JsonObject> {
     }
 
     @Override
-    public void processing(JsonObject object) {
-        Gson gson = new Gson();
-        Message userMessage = gson.fromJson(object.getAsJsonObject("object"), Message.class);
-        log.info(userMessage);
-        mailService.add(createMail(userMessage));
+    public void processing(Message object) {
+        mailService.add(createMail(object));
     }
 
     private Mail createMail(Message message) {

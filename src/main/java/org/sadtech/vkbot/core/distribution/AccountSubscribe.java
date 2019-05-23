@@ -3,7 +3,7 @@ package org.sadtech.vkbot.core.distribution;
 import com.vk.api.sdk.objects.messages.Message;
 import org.sadtech.bot.core.service.AccountService;
 
-public class AccountSubscribe extends AbstractBasketSubscribe<Message> {
+public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> {
 
     private final AccountService accountService;
 

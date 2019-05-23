@@ -2,10 +2,15 @@ package org.sadtech.vkbot.core.distribution;
 
 import java.util.Set;
 
-public abstract class AbstractBasketSubscribe<S> implements EventSubscribe<S> {
+public abstract class AbstractBasketSubscribe<S, C> {
 
     private Set<AbstractBasketSubscribe> basketSubscribes;
     private AbstractBasketSubscribe prioritySubscribe;
+    protected Convert<S, C> convert;
+
+    public AbstractBasketSubscribe() {
+        convert = (object) -> (C) object;
+    }
 
     public Set<AbstractBasketSubscribe> getBasketSubscribes() {
         return basketSubscribes;
@@ -23,9 +28,17 @@ public abstract class AbstractBasketSubscribe<S> implements EventSubscribe<S> {
         this.prioritySubscribe = prioritySubscribe;
     }
 
+    public Convert getConvert() {
+        return convert;
+    }
+
+    public void setConvert(Convert convert) {
+        this.convert = convert;
+    }
+
     protected abstract boolean check(S object);
 
-    private boolean goNextSubscribe(S object) {
+    private boolean goNextSubscribe(C object) {
         boolean flag = false;
         if (prioritySubscribe != null && prioritySubscribe.check(object)) {
             prioritySubscribe.update(object);
@@ -34,7 +47,6 @@ public abstract class AbstractBasketSubscribe<S> implements EventSubscribe<S> {
             for (AbstractBasketSubscribe basketSubscribe : basketSubscribes) {
                 if (basketSubscribe.check(object)) {
                     basketSubscribe.update(object);
-                } else {
                     flag = true;
                 }
             }
@@ -42,12 +54,12 @@ public abstract class AbstractBasketSubscribe<S> implements EventSubscribe<S> {
         return flag;
     }
 
-    @Override
     public void update(S object) {
-        if (!goNextSubscribe(object)) {
-            processing(object);
+        C newObject = convert.converting(object);
+        if (!goNextSubscribe(newObject)) {
+            processing(newObject);
         }
     }
 
-    public abstract void processing(S object);
+    public abstract void processing(C object);
 }
