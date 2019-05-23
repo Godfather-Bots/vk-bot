@@ -9,7 +9,7 @@ import com.vk.api.sdk.objects.messages.Keyboard;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.domain.BoxAnswer;
-import org.sadtech.bot.core.sender.Sent;
+import org.sadtech.bot.core.service.sender.Sent;
 import org.sadtech.vkbot.core.VkConnect;
 import org.sadtech.vkbot.core.VkInsertData;
 import org.sadtech.vkbot.core.convert.KeyBoardConvert;
@@ -66,8 +66,6 @@ public class MailSenderVk implements Sent {
         }
         return messages;
     }
-
-
 
 
     private void sendMessage(MessagesSendQuery messages) {

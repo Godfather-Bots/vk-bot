@@ -11,68 +11,37 @@ import org.sadtech.bot.core.domain.attachment.Attachment;
 import org.sadtech.bot.core.domain.attachment.AudioMessage;
 import org.sadtech.bot.core.service.MailService;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
 
-public class MailSubscriber implements EventSubscribe<JsonObject> {
+public class MailSubscriber extends AbstractBasketSubscribe<JsonObject> {
 
     private static final Logger log = Logger.getLogger(MailSubscriber.class);
 
     private final MailService mailService;
-    private Set<Integer> admins = new HashSet<>();
-    private final Map<String, EventSubscribe<Message>> eventDistributionMap = new HashMap<>();
 
     public MailSubscriber(MailService mailService) {
         this.mailService = mailService;
     }
 
-    public void setAdmins(Set<Integer> admins) {
-        this.admins = admins;
-    }
-
-    public Set<Integer> getAdmins() {
-        return admins;
+    @Override
+    protected boolean check(JsonObject object) {
+        String type = object.get("type").getAsString();
+        return "message_new".equals(type);
     }
 
     @Override
-    public void update(JsonObject object) {
-        log.info("Дистрибьютор получил событие - сообщение");
+    public void processing(JsonObject object) {
         Gson gson = new Gson();
-        Message userMessage = gson.fromJson(object, Message.class);
+        Message userMessage = gson.fromJson(object.getAsJsonObject("object"), Message.class);
         log.info(userMessage);
-
-        if (userMessage.getPeerId() > 2000000000) {
-            if (eventDistributionMap.containsKey("chat")) {
-                eventDistributionMap.get("chat").update(userMessage);
-            }
-        } else {
-            if (admins.contains(userMessage.getPeerId()) && eventDistributionMap.containsKey("terminal")) {
-                log.info("Сообщение отправлено в репозиторий команд");
-                eventDistributionMap.get("terminal").update(userMessage);
-            } else {
-                log.info("Сообщение отправленно на добавление в репозиторий");
-                mailService.add(createMaail(userMessage));
-            }
-        }
+        mailService.add(createMail(userMessage));
     }
 
-    public byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
-
-    private Mail createMaail(Message message) {
+    private Mail createMail(Message message) {
         Mail mail = new Mail();
         mail.setMessage(message.getText());
         mail.setDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(message.getDate()), TimeZone.getDefault().toZoneId()));
