@@ -1,5 +1,7 @@
 package org.sadtech.vkbot.core.distribution;
 
+import org.sadtech.vkbot.core.convert.Convert;
+
 import java.util.Set;
 
 public abstract class AbstractBasketSubscribe<S, C> {

@@ -20,6 +20,7 @@ public class EventDistributor extends AbstractBasketSubscribe<JsonObject, JsonOb
         while (true) {
             if (rawEventService.getJsonObjects().peek() != null) {
                 JsonObject event = rawEventService.getJsonObjects().poll();
+                log.info("Добавлено новое событие");
                 super.update(event);
             }
         }

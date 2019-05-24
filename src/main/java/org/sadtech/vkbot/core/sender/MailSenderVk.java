@@ -54,8 +54,8 @@ public class MailSenderVk implements Sent {
             keyboard.setButtons(Collections.EMPTY_LIST);
             messages.keyboard(keyboard);
         }
-        if (boxAnswer.getLat() != null && boxAnswer.getaLong() != null) {
-            messages.lat(boxAnswer.getLat()).lng(boxAnswer.getaLong());
+        if (boxAnswer.getCoordinates() != null) {
+            messages.lat(boxAnswer.getCoordinates().getLat()).lng(boxAnswer.getCoordinates().getaLong());
         }
         if (boxAnswer.getStickerId() != null) {
             try {
