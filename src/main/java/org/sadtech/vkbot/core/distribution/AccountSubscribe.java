@@ -15,7 +15,6 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
     private final AccountService accountService;
     private final Sent sent;
     private BoxAnswer answerSuccessfulPayment;
-    private BoxAnswer answerFailPayment;
 
     public AccountSubscribe(AccountService accountService, Sent sent) {
         this.accountService = accountService;
@@ -30,14 +29,6 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
         this.answerSuccessfulPayment = answerSuccessfulPayment;
     }
 
-    public BoxAnswer getAnswerFailPayment() {
-        return answerFailPayment;
-    }
-
-    public void setAnswerFailPayment(BoxAnswer answerFailPayment) {
-        this.answerFailPayment = answerFailPayment;
-    }
-
     @Override
     protected boolean check(Message userMessage) {
         return userMessage.getAttachments().size() > 0 && "Денежный перевод".equals(userMessage.getAttachments().get(0).getLink().getCaption());
@@ -47,10 +38,12 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
     public void processing(Message message) {
         if (message.getText() != null) {
             try {
-                if (accountService.pay(Integer.valueOf(message.getText()), message.getPeerId(), Double.valueOf(message.getAttachments().get(0).getLink().getTitle().split(" ")[0]))) {
+                Double valueSum = Double.valueOf(message.getAttachments().get(0).getLink().getTitle().split(" ")[0]);
+                if (accountService.pay(Integer.valueOf(message.getText()), message.getPeerId(), valueSum) && answerSuccessfulPayment != null) {
                     sent.send(message.getPeerId(), answerSuccessfulPayment);
                 }
             } catch (PaymentException e) {
+                log.error(e.getMessage());
                 sent.send(message.getPeerId(), BoxAnswer.builder().message(e.getDescription()).build());
             }
         }

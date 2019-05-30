@@ -34,14 +34,14 @@ public class MailSenderVk implements Sent {
     }
 
     @Override
-    public void send(Integer idPerson, String message) {
-        sendMessage(vkApiClient.messages().send(groupActor).peerId(idPerson).message(message).randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE)));
+    public void send(Integer personId, BoxAnswer boxAnswer) {
+        MessagesSendQuery messagesSendQuery = createMessage(boxAnswer, personId);
+        sendMessage(messagesSendQuery);
     }
 
     @Override
-    public void send(Integer idPerson, BoxAnswer boxAnswer) {
-        MessagesSendQuery messagesSendQuery = createMessage(boxAnswer, idPerson);
-        sendMessage(messagesSendQuery);
+    public void send(Integer integer, Integer integer1, BoxAnswer boxAnswer) {
+
     }
 
     private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
@@ -55,7 +55,7 @@ public class MailSenderVk implements Sent {
             messages.keyboard(keyboard);
         }
         if (boxAnswer.getCoordinates() != null) {
-            messages.lat(boxAnswer.getCoordinates().getLat()).lng(boxAnswer.getCoordinates().getaLong());
+            messages.lat(boxAnswer.getCoordinates().getLatitude()).lng(boxAnswer.getCoordinates().getLongitude());
         }
         if (boxAnswer.getStickerId() != null) {
             try {
