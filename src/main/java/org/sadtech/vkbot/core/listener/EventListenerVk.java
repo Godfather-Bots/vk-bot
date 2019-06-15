@@ -1,18 +1,17 @@
 package org.sadtech.vkbot.core.listener;
 
-import com.google.gson.JsonObject;
-import com.vk.api.sdk.callback.longpoll.responses.GetLongPollEventsResponse;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.exceptions.LongPollServerKeyExpiredException;
+import com.vk.api.sdk.objects.callback.longpoll.responses.GetLongPollEventsResponse;
 import com.vk.api.sdk.objects.groups.LongPollServer;
 import org.apache.log4j.Logger;
 import org.sadtech.bot.core.repository.impl.EventRepositoryQueue;
 import org.sadtech.bot.core.service.RawEventService;
 import org.sadtech.bot.core.service.impl.RawEventServiceImpl;
-import org.sadtech.vkbot.core.VkConnect;
+import org.sadtech.vkbot.core.config.VkConnect;
 
 public class EventListenerVk implements Runnable {
 
@@ -20,9 +19,7 @@ public class EventListenerVk implements Runnable {
 
     private final VkApiClient vk;
     private final GroupActor actor;
-
     private static final Integer DEFAULT_WAIT_TIME = 25;
-
     private final RawEventService rawEventService;
 
     public EventListenerVk(VkConnect vkConnect) {
@@ -32,31 +29,30 @@ public class EventListenerVk implements Runnable {
     }
 
     public EventListenerVk(VkConnect vkConnect, RawEventService rawEventService) {
-        this.vk = vkConnect.getVkApiClient();
-        this.actor = vkConnect.getGroupActor();
+        vk = vkConnect.getVkApiClient();
+        actor = vkConnect.getGroupActor();
         this.rawEventService = rawEventService;
-    }
-
-    public RawEventService getRawEventService() {
-        return rawEventService;
     }
 
     public void listen() throws ClientException, ApiException {
         LongPollServer longPollServer = getLongPollServer();
-        int lastTimeStamp = longPollServer.getTs();
+        int lastTimeStamp = Integer.parseInt(longPollServer.getTs());
         while (true) {
             try {
-                GetLongPollEventsResponse eventsResponse = vk.longPoll().getEvents(longPollServer.getServer(), longPollServer.getKey(), lastTimeStamp).waitTime(DEFAULT_WAIT_TIME).execute();
-                for (JsonObject jsonObject : eventsResponse.getUpdates()) {
-                    log.info("Новое событие от LongPoll\n" + jsonObject);
-                    rawEventService.add(jsonObject);
-                }
+                GetLongPollEventsResponse eventsResponse = vk.longPoll()
+                        .getEvents(longPollServer.getServer(), longPollServer.getKey(), lastTimeStamp)
+                        .waitTime(DEFAULT_WAIT_TIME)
+                        .execute();
+                eventsResponse.getUpdates().parallelStream().forEach(object -> {
+                    log.info("Новое событие от LongPoll\n" + object);
+                    rawEventService.add(object);
+                });
                 lastTimeStamp = eventsResponse.getTs();
             } catch (LongPollServerKeyExpiredException e) {
-                log.error(e.getStackTrace());
+                log.error(e.getMessage());
                 longPollServer = getLongPollServer();
             } catch (Exception e) {
-                log.error(e.getStackTrace());
+                log.error(e.getMessage());
                 break;
             }
         }
@@ -76,8 +72,12 @@ public class EventListenerVk implements Runnable {
         try {
             listen();
         } catch (ClientException | ApiException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
+    }
+
+    public RawEventService getRawEventService() {
+        return rawEventService;
     }
 
 }

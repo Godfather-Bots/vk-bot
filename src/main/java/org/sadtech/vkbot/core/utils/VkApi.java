@@ -1,16 +1,17 @@
-package org.sadtech.vkbot.core;
+package org.sadtech.vkbot.core.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vk.api.sdk.client.VkApiClient;
-import com.vk.api.sdk.client.actors.GroupActor;
+import com.vk.api.sdk.client.actors.ServiceActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserMin;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import org.apache.log4j.Logger;
+import org.sadtech.vkbot.core.config.VkConnect;
 
 import java.util.List;
 
@@ -19,11 +20,11 @@ public class VkApi {
     private static final Logger log = Logger.getLogger(String.valueOf(VkApi.class));
 
     private final VkApiClient vk;
-    private final GroupActor actor;
+    private final ServiceActor actor;
 
     public VkApi(VkConnect vkConnect) {
         vk = vkConnect.getVkApiClient();
-        actor = vkConnect.getGroupActor();
+        actor = vkConnect.getServiceActor();
     }
 
     public UserMin getUserMini(Integer id) {

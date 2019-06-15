@@ -5,17 +5,23 @@ import org.sadtech.bot.core.domain.keyboard.ButtonColor;
 import org.sadtech.bot.core.domain.keyboard.KeyBoard;
 import org.sadtech.bot.core.domain.keyboard.KeyBoardButton;
 import org.sadtech.bot.core.domain.keyboard.KeyBoardLine;
+import org.sadtech.bot.core.domain.keyboard.button.KeyBoardButtonAccount;
+import org.sadtech.bot.core.domain.keyboard.button.KeyBoardButtonText;
+import org.sadtech.vkbot.core.config.VkConnect;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class KeyBoardConvert {
+public class KeyBoardConvert {
 
-    private KeyBoardConvert() {
+    private final VkConnect vkConnect;
 
+    public KeyBoardConvert(VkConnect vkConnect) {
+        this.vkConnect = vkConnect;
     }
 
-    public static Keyboard convertKeyboard(KeyBoard keyboard) {
+
+    public Keyboard convertKeyboard(KeyBoard keyboard) {
         Keyboard keyboardVk = new Keyboard();
         keyboardVk.setOneTime(keyboard.isOneTime());
 
@@ -32,19 +38,57 @@ public final class KeyBoardConvert {
         return keyboardVk;
     }
 
-    private static KeyboardButton convertButton(KeyBoardButton button) {
+    private KeyboardButton convertButton(KeyBoardButton button) {
         KeyboardButton buttonVk = new KeyboardButton();
-        buttonVk.setColor(convertColor(button.getColor()));
 
-        KeyboardButtonAction buttonActionVk = new KeyboardButtonAction();
-        buttonActionVk.setLabel(button.getLabel());
-        buttonActionVk.setType(KeyboardButtonActionType.TEXT);
-        buttonActionVk.setPayload(button.getPayload());
+        switch (button.getType()) {
+            case TEXT:
+                KeyBoardButtonText buttonText = (KeyBoardButtonText) button;
+                buttonVk.setColor(convertColor(buttonText.getColor()));
+                break;
+        }
 
+        KeyboardButtonAction buttonActionVk = createActionButton(button);
         buttonVk.setAction(buttonActionVk);
         return buttonVk;
     }
 
+
+    private KeyboardButtonAction createActionButton(KeyBoardButton button) {
+        KeyboardButtonAction keyboardButtonAction = new KeyboardButtonAction();
+        switch (button.getType()) {
+            case TEXT:
+                KeyBoardButtonText buttonText = (KeyBoardButtonText) button;
+                keyboardButtonAction.setType(KeyboardButtonActionType.TEXT);
+                keyboardButtonAction.setLabel(buttonText.getLabel());
+                break;
+            case ACCOUNT:
+                KeyBoardButtonAccount buttonAccount = (KeyBoardButtonAccount) button;
+                keyboardButtonAction.setType(KeyboardButtonActionType.VKPAY);
+                keyboardButtonAction.setHash(createHash(buttonAccount));
+                break;
+        }
+        return keyboardButtonAction;
+    }
+
+    private String createHash(KeyBoardButtonAccount button) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (button.getAmount()!=null) {
+            stringBuilder
+                    .append("action=pay-to-group&amount=")
+                    .append(button.getAmount()).append("&group_id=")
+                    .append(vkConnect.getGroupActor().getGroupId());
+        } else {
+            stringBuilder
+                    .append("action=transfer-to-group")
+                    .append(button.getAmount()).append("&group_id=")
+                    .append(vkConnect.getGroupActor().getGroupId());
+        }
+        if (button.getAccountId()!=null) {
+            stringBuilder.append("&description=").append(button.getAccountId());
+        }
+        return stringBuilder.append("&aid=").append(vkConnect.getServiceActor().getId()).toString();
+    }
 
     private static KeyboardButtonColor convertColor(ButtonColor color) {
         KeyboardButtonColor buttonColorVk;
