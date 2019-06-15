@@ -3,6 +3,7 @@ package org.sadtech.vkbot.core.distribution;
 import org.sadtech.vkbot.core.convert.Convert;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AbstractBasketSubscribe<S, C> {
 
@@ -13,6 +14,33 @@ public abstract class AbstractBasketSubscribe<S, C> {
     public AbstractBasketSubscribe() {
         convert = (object) -> (C) object;
     }
+
+    protected abstract boolean check(S object);
+
+    public void update(S object) {
+        C newObject = convert.converting(object);
+        if (!goNextSubscribe(newObject)) {
+            processing(newObject);
+        }
+    }
+
+    private boolean goNextSubscribe(C object) {
+        AtomicBoolean flag = new AtomicBoolean(false);
+        if (prioritySubscribe != null && prioritySubscribe.check(object)) {
+            prioritySubscribe.update(object);
+            flag.set(true);
+        } else if (basketSubscribes != null) {
+            basketSubscribes.stream()
+                    .filter(basketSubscribe -> basketSubscribe.check(object))
+                    .forEach(basketSubscribe -> {
+                        basketSubscribe.update(object);
+                        flag.set(true);
+                    });
+        }
+        return flag.get();
+    }
+
+    public abstract void processing(C object);
 
     public Set<AbstractBasketSubscribe> getBasketSubscribes() {
         return basketSubscribes;
@@ -38,30 +66,4 @@ public abstract class AbstractBasketSubscribe<S, C> {
         this.convert = convert;
     }
 
-    protected abstract boolean check(S object);
-
-    private boolean goNextSubscribe(C object) {
-        boolean flag = false;
-        if (prioritySubscribe != null && prioritySubscribe.check(object)) {
-            prioritySubscribe.update(object);
-            flag = true;
-        } else if (basketSubscribes != null) {
-            for (AbstractBasketSubscribe basketSubscribe : basketSubscribes) {
-                if (basketSubscribe.check(object)) {
-                    basketSubscribe.update(object);
-                    flag = true;
-                }
-            }
-        }
-        return flag;
-    }
-
-    public void update(S object) {
-        C newObject = convert.converting(object);
-        if (!goNextSubscribe(newObject)) {
-            processing(newObject);
-        }
-    }
-
-    public abstract void processing(C object);
 }

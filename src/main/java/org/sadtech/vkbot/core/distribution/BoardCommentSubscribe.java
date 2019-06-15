@@ -55,9 +55,16 @@ public class BoardCommentSubscribe extends AbstractBasketSubscribe<JsonObject, T
     @Override
     protected boolean check(JsonObject object) {
         String type = object.get("type").getAsString();
-        String message = object.getAsJsonObject("object").get("text").getAsString();
-        Integer groupId = object.get("group_id").getAsInt();
-        return "board_post_new".equals(type) && checkRespondAppeal(message, groupId);
+        return "board_post_new".equals(type);
+    }
+
+    @Override
+    public void processing(TopicComment object) {
+        if (checkPerson(object.getFromId())
+                && checkTopic(object.getTopicId())
+                && checkRespondAppeal(object.getText(), object.getFromId())) {
+            boardCommentService.add(topicConvert.converting(object));
+        }
     }
 
     private boolean checkRespondAppeal(String message, Integer groupId) {
@@ -86,11 +93,4 @@ public class BoardCommentSubscribe extends AbstractBasketSubscribe<JsonObject, T
         }
     }
 
-
-    @Override
-    public void processing(TopicComment object) {
-        if (checkPerson(object.getFromId()) && checkTopic(object.getTopicId())) {
-            boardCommentService.add(topicConvert.converting(object));
-        }
-    }
 }

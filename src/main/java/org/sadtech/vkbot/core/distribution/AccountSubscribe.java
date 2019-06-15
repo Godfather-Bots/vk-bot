@@ -1,6 +1,7 @@
 package org.sadtech.vkbot.core.distribution;
 
 import com.vk.api.sdk.objects.messages.Message;
+import com.vk.api.sdk.objects.messages.MessageAttachmentType;
 import org.sadtech.bot.core.domain.BoxAnswer;
 import org.sadtech.bot.core.exception.PaymentException;
 import org.sadtech.bot.core.service.AccountService;
@@ -21,24 +22,18 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
         this.sent = sent;
     }
 
-    public BoxAnswer getAnswerSuccessfulPayment() {
-        return answerSuccessfulPayment;
-    }
-
-    public void setAnswerSuccessfulPayment(BoxAnswer answerSuccessfulPayment) {
-        this.answerSuccessfulPayment = answerSuccessfulPayment;
-    }
-
     @Override
     protected boolean check(Message userMessage) {
-        return userMessage.getAttachments().size() > 0 && "Денежный перевод".equals(userMessage.getAttachments().get(0).getLink().getCaption());
+        return userMessage.getAttachments().size() > 0
+                && MessageAttachmentType.LINK.equals(userMessage.getAttachments().get(0).getType())
+                && "Payment awaiting acceptance".equals(userMessage.getAttachments().get(0).getLink().getCaption());
     }
 
     @Override
     public void processing(Message message) {
         if (message.getText() != null) {
             try {
-                Double valueSum = Double.valueOf(message.getAttachments().get(0).getLink().getTitle().split(" ")[0]);
+                Integer valueSum = Integer.valueOf(message.getAttachments().get(0).getLink().getTitle().split(" ")[0]);
                 if (accountService.pay(Integer.valueOf(message.getText()), message.getPeerId(), valueSum) && answerSuccessfulPayment != null) {
                     sent.send(message.getPeerId(), answerSuccessfulPayment);
                 }
@@ -47,5 +42,13 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
                 sent.send(message.getPeerId(), BoxAnswer.builder().message(e.getDescription()).build());
             }
         }
+    }
+
+    public BoxAnswer getAnswerSuccessfulPayment() {
+        return answerSuccessfulPayment;
+    }
+
+    public void setAnswerSuccessfulPayment(BoxAnswer answerSuccessfulPayment) {
+        this.answerSuccessfulPayment = answerSuccessfulPayment;
     }
 }

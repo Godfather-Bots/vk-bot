@@ -35,6 +35,7 @@ public class MessageMailConvert implements Convert<Message, Mail> {
         return Geo.builder()
                 .coordinate(geoVk.getCoordinates().getLatitude(),
                         geoVk.getCoordinates().getLongitude())
+                .city(geoVk.getPlace().getCity())
                 .build();
     }
 

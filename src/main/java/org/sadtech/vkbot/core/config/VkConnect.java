@@ -1,4 +1,4 @@
-package org.sadtech.vkbot.core;
+package org.sadtech.vkbot.core.config;
 
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
@@ -68,6 +68,6 @@ public class VkConnect {
     }
 
     private void initServiceActor() {
-        serviceActor = new ServiceActor(vkConfig.getConfigGroup().getAppId(), vkConfig.getConfigGroup().getServiceToken());
+        serviceActor = new ServiceActor(vkConfig.getConfigService().getAppId(), vkConfig.getConfigService().getServiceToken());
     }
 }

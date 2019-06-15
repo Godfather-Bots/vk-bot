@@ -11,7 +11,7 @@ public class TopicCommentToBoardComment implements Convert<TopicComment, BoardCo
     @Override
     public BoardComment converting(TopicComment target) {
         BoardComment boardComment = new BoardComment();
-        boardComment.setTopicId(target.getTopicId());
+        boardComment.setContentId(target.getTopicId());
         boardComment.setCreateDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(target.getDate()), TimeZone.getDefault().toZoneId()));
         boardComment.setMessage(target.getText());
         boardComment.setPersonId(target.getFromId());
