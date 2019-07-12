@@ -37,9 +37,9 @@ public class BoardCommentSenderVk implements Sent {
     public void send(Integer contentId, Integer personId, BoxAnswer boxAnswer) {
         try {
             StringBuilder insertAnswer = new StringBuilder(vkInsertData.insertWords(boxAnswer.getMessage(), personId));
-            if (boxAnswer.getKeyboard() != null) {
+            if (boxAnswer.getKeyBoard() != null) {
                 insertAnswer.append("\n\nМеню:\n");
-                for (KeyBoardLine keyBoardLine : boxAnswer.getKeyboard().getKeyBoardLines()) {
+                for (KeyBoardLine keyBoardLine : boxAnswer.getKeyBoard().getKeyBoardLines()) {
                     for (KeyBoardButton keyBoardButton : keyBoardLine.getKeyBoardButtons()) {
                         switch (keyBoardButton.getType()) {
                             case TEXT:

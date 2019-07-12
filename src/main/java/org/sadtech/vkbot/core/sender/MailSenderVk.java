@@ -43,7 +43,7 @@ public class MailSenderVk implements Sent {
         MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId)
                 .message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId))
                 .randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
-        messages.keyboard(convertKeyBoard(boxAnswer.getKeyboard()));
+        messages.keyboard(convertKeyBoard(boxAnswer.getKeyBoard()));
 
         if (boxAnswer.getCoordinates() != null) {
             messages.lat(boxAnswer.getCoordinates().getLatitude()).lng(boxAnswer.getCoordinates().getLongitude());
