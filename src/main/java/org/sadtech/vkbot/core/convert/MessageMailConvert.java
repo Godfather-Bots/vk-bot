@@ -2,10 +2,10 @@ package org.sadtech.vkbot.core.convert;
 
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.messages.MessageAttachment;
-import org.sadtech.bot.core.domain.content.Mail;
-import org.sadtech.bot.core.domain.content.attachment.Attachment;
-import org.sadtech.bot.core.domain.content.attachment.AudioMessage;
-import org.sadtech.bot.core.domain.content.attachment.Geo;
+import org.sadtech.social.core.domain.content.Mail;
+import org.sadtech.social.core.domain.content.attachment.Attachment;
+import org.sadtech.social.core.domain.content.attachment.AudioMessage;
+import org.sadtech.social.core.domain.content.attachment.Geo;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ public class MessageMailConvert implements Convert<Message, Mail> {
     @Override
     public Mail converting(Message message) {
         Mail mail = new Mail();
-        mail.setMessage(message.getText());
+        mail.setText(message.getText());
         mail.setCreateDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(message.getDate()), TimeZone.getDefault().toZoneId()));
         mail.setId(message.getId());
         mail.setPersonId(message.getPeerId());
@@ -25,7 +25,7 @@ public class MessageMailConvert implements Convert<Message, Mail> {
                 .stream()
                 .map(this::convertAttachment)
                 .collect(Collectors.toList()));
-        if (message.getGeo()!=null) {
+        if (message.getGeo() != null) {
             mail.getAttachments().add(convertGeo(message.getGeo()));
         }
         return mail;

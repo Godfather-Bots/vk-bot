@@ -3,8 +3,8 @@ package org.sadtech.vkbot.core.distribution;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vk.api.sdk.objects.messages.Message;
-import org.sadtech.bot.core.domain.content.Mail;
-import org.sadtech.bot.core.service.MailService;
+import org.sadtech.social.core.domain.content.Mail;
+import org.sadtech.social.core.service.MailService;
 import org.sadtech.vkbot.core.convert.Convert;
 import org.sadtech.vkbot.core.convert.MessageMailConvert;
 

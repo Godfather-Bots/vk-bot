@@ -3,8 +3,8 @@ package org.sadtech.vkbot.core.distribution;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.vk.api.sdk.objects.board.TopicComment;
-import org.sadtech.bot.core.domain.content.BoardComment;
-import org.sadtech.bot.core.service.BoardCommentService;
+import org.sadtech.social.core.domain.content.BoardComment;
+import org.sadtech.social.core.service.BoardCommentService;
 import org.sadtech.vkbot.core.convert.Convert;
 import org.sadtech.vkbot.core.convert.TopicCommentToBoardComment;
 

@@ -5,12 +5,12 @@ import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import org.sadtech.bot.core.domain.BoxAnswer;
-import org.sadtech.bot.core.domain.keyboard.KeyBoardButton;
-import org.sadtech.bot.core.domain.keyboard.KeyBoardLine;
-import org.sadtech.bot.core.domain.keyboard.button.KeyBoardButtonText;
-import org.sadtech.bot.core.exception.MailSendException;
-import org.sadtech.bot.core.service.sender.Sent;
+import org.sadtech.social.core.domain.BoxAnswer;
+import org.sadtech.social.core.domain.keyboard.KeyBoardButton;
+import org.sadtech.social.core.domain.keyboard.KeyBoardLine;
+import org.sadtech.social.core.domain.keyboard.button.KeyBoardButtonText;
+import org.sadtech.social.core.exception.MailSendException;
+import org.sadtech.social.core.service.sender.Sent;
 import org.sadtech.vkbot.core.config.VkConnect;
 import org.sadtech.vkbot.core.utils.VkInsertData;
 
@@ -43,7 +43,7 @@ public class BoardCommentSenderVk implements Sent {
                     for (KeyBoardButton keyBoardButton : keyBoardLine.getKeyBoardButtons()) {
                         switch (keyBoardButton.getType()) {
                             case TEXT:
-                                insertAnswer.append("- ").append(((KeyBoardButtonText)keyBoardButton).getLabel()).append("\n");
+                                insertAnswer.append("- ").append(((KeyBoardButtonText) keyBoardButton).getLabel()).append("\n");
                         }
 
                     }

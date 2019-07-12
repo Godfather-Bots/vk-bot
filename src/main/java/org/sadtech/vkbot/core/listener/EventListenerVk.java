@@ -8,9 +8,9 @@ import com.vk.api.sdk.exceptions.LongPollServerKeyExpiredException;
 import com.vk.api.sdk.objects.callback.longpoll.responses.GetLongPollEventsResponse;
 import com.vk.api.sdk.objects.groups.LongPollServer;
 import org.apache.log4j.Logger;
-import org.sadtech.bot.core.repository.impl.EventRepositoryQueue;
-import org.sadtech.bot.core.service.RawEventService;
-import org.sadtech.bot.core.service.impl.RawEventServiceImpl;
+import org.sadtech.social.core.repository.impl.EventRepositoryQueue;
+import org.sadtech.social.core.service.RawEventService;
+import org.sadtech.social.core.service.impl.RawEventServiceImpl;
 import org.sadtech.vkbot.core.config.VkConnect;
 
 public class EventListenerVk implements Runnable {

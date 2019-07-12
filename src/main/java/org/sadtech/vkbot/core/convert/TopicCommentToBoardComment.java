@@ -1,7 +1,7 @@
 package org.sadtech.vkbot.core.convert;
 
 import com.vk.api.sdk.objects.board.TopicComment;
-import org.sadtech.bot.core.domain.content.BoardComment;
+import org.sadtech.social.core.domain.content.BoardComment;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ public class TopicCommentToBoardComment implements Convert<TopicComment, BoardCo
         BoardComment boardComment = new BoardComment();
         boardComment.setContentId(target.getTopicId());
         boardComment.setCreateDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(target.getDate()), TimeZone.getDefault().toZoneId()));
-        boardComment.setMessage(target.getText());
+        boardComment.setText(target.getText());
         boardComment.setPersonId(target.getFromId());
 
 

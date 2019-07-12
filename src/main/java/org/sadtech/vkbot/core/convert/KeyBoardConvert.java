@@ -1,12 +1,16 @@
 package org.sadtech.vkbot.core.convert;
 
-import com.vk.api.sdk.objects.messages.*;
-import org.sadtech.bot.core.domain.keyboard.ButtonColor;
-import org.sadtech.bot.core.domain.keyboard.KeyBoard;
-import org.sadtech.bot.core.domain.keyboard.KeyBoardButton;
-import org.sadtech.bot.core.domain.keyboard.KeyBoardLine;
-import org.sadtech.bot.core.domain.keyboard.button.KeyBoardButtonAccount;
-import org.sadtech.bot.core.domain.keyboard.button.KeyBoardButtonText;
+import com.vk.api.sdk.objects.messages.Keyboard;
+import com.vk.api.sdk.objects.messages.KeyboardButton;
+import com.vk.api.sdk.objects.messages.KeyboardButtonAction;
+import com.vk.api.sdk.objects.messages.KeyboardButtonActionType;
+import com.vk.api.sdk.objects.messages.KeyboardButtonColor;
+import org.sadtech.social.core.domain.keyboard.ButtonColor;
+import org.sadtech.social.core.domain.keyboard.KeyBoard;
+import org.sadtech.social.core.domain.keyboard.KeyBoardButton;
+import org.sadtech.social.core.domain.keyboard.KeyBoardLine;
+import org.sadtech.social.core.domain.keyboard.button.KeyBoardButtonAccount;
+import org.sadtech.social.core.domain.keyboard.button.KeyBoardButtonText;
 import org.sadtech.vkbot.core.config.VkConnect;
 
 import java.util.ArrayList;
@@ -73,7 +77,7 @@ public class KeyBoardConvert {
 
     private String createHash(KeyBoardButtonAccount button) {
         StringBuilder stringBuilder = new StringBuilder();
-        if (button.getAmount()!=null) {
+        if (button.getAmount() != null) {
             stringBuilder
                     .append("action=pay-to-group&amount=")
                     .append(button.getAmount()).append("&group_id=")
@@ -84,7 +88,7 @@ public class KeyBoardConvert {
                     .append(button.getAmount()).append("&group_id=")
                     .append(vkConnect.getGroupActor().getGroupId());
         }
-        if (button.getAccountId()!=null) {
+        if (button.getAccountId() != null) {
             stringBuilder.append("&description=").append(button.getAccountId());
         }
         return stringBuilder.append("&aid=").append(vkConnect.getServiceActor().getId()).toString();

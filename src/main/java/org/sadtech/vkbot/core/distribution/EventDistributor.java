@@ -2,8 +2,9 @@ package org.sadtech.vkbot.core.distribution;
 
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
-import org.sadtech.bot.core.service.RawEventService;
+import org.sadtech.social.core.service.RawEventService;
 
+// todo [upagge] [12/07/2019]: Рефакторинг - отказаться от наследования
 public class EventDistributor extends AbstractBasketSubscribe<JsonObject, JsonObject> implements Runnable {
 
     private static final Logger log = Logger.getLogger(EventDistributor.class);

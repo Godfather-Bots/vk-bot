@@ -2,10 +2,10 @@ package org.sadtech.vkbot.core.distribution;
 
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.messages.MessageAttachmentType;
-import org.sadtech.bot.core.domain.BoxAnswer;
-import org.sadtech.bot.core.exception.PaymentException;
-import org.sadtech.bot.core.service.AccountService;
-import org.sadtech.bot.core.service.sender.Sent;
+import org.sadtech.social.core.domain.BoxAnswer;
+import org.sadtech.social.core.exception.PaymentException;
+import org.sadtech.social.core.service.AccountService;
+import org.sadtech.social.core.service.sender.Sent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
