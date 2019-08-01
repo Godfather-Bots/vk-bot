@@ -15,6 +15,6 @@ public interface RawEventService {
 
     void add(JsonObject jsonObject);
 
-    Set<JsonObject> getJsonObjects();
+    Set<JsonObject> getNewEvent();
 
 }

@@ -1,4 +1,4 @@
-package org.sadtech.vkbot.core.distribution;
+package org.sadtech.vkbot.core.distribution.subscriber;
 
 import org.sadtech.vkbot.core.convert.Convert;
 
@@ -15,7 +15,7 @@ public abstract class AbstractBasketSubscribe<S, C> {
         convert = (object) -> (C) object;
     }
 
-    protected abstract boolean check(S object);
+    public abstract boolean check(S object);
 
     public void update(S object) {
         C newObject = convert.converting(object);

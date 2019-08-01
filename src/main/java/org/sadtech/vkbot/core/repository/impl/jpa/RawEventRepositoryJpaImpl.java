@@ -38,7 +38,7 @@ public class RawEventRepositoryJpaImpl implements RawEventRepository {
     }
 
     @Override
-    public Set<JsonObject> getEventQueue() {
+    public Set<JsonObject> findNewEvent() {
         if (addFlag) {
             List<JsonObjectId> allEvent = rawEventRepositoryJpa.findAll();
             rawEventRepositoryJpa.deleteAll(allEvent);

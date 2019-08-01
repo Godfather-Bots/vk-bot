@@ -1,4 +1,4 @@
-package org.sadtech.vkbot.core.distribution;
+package org.sadtech.vkbot.core.distribution.subscriber;
 
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.messages.MessageAttachmentType;
@@ -23,7 +23,7 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
     }
 
     @Override
-    protected boolean check(Message userMessage) {
+    public boolean check(Message userMessage) {
         return userMessage.getAttachments().size() > 0
                 && MessageAttachmentType.LINK.equals(userMessage.getAttachments().get(0).getType())
                 && "Payment awaiting acceptance".equals(userMessage.getAttachments().get(0).getLink().getCaption());

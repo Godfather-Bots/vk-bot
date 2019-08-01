@@ -27,8 +27,8 @@ public class RawEventServiceImpl implements RawEventService {
     }
 
     @Override
-    public Set<JsonObject> getJsonObjects() {
-        return rawEventRepository.getEventQueue();
+    public Set<JsonObject> getNewEvent() {
+        return rawEventRepository.findNewEvent();
     }
 
 }

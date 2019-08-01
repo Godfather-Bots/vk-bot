@@ -15,6 +15,6 @@ public interface RawEventRepository {
 
     void cleanAll();
 
-    Set<JsonObject> getEventQueue();
+    Set<JsonObject> findNewEvent();
 
 }

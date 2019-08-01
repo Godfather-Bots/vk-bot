@@ -1,4 +1,4 @@
-package org.sadtech.vkbot.core.distribution;
+package org.sadtech.vkbot.core.distribution.subscriber;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -53,7 +53,7 @@ public class BoardCommentSubscribe extends AbstractBasketSubscribe<JsonObject, T
     }
 
     @Override
-    protected boolean check(JsonObject object) {
+    public boolean check(JsonObject object) {
         String type = object.get("type").getAsString();
         return "board_post_new".equals(type);
     }

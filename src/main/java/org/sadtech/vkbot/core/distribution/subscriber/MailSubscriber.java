@@ -1,4 +1,4 @@
-package org.sadtech.vkbot.core.distribution;
+package org.sadtech.vkbot.core.distribution.subscriber;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -22,7 +22,7 @@ public class MailSubscriber extends AbstractBasketSubscribe<JsonObject, Message>
     }
 
     @Override
-    protected boolean check(JsonObject object) {
+    public boolean check(JsonObject object) {
         String type = object.get("type").getAsString();
         return "message_new".equals(type);
     }
