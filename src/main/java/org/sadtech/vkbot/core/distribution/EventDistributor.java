@@ -1,39 +1,41 @@
 package org.sadtech.vkbot.core.distribution;
 
 import com.google.gson.JsonObject;
-import org.apache.log4j.Logger;
-import org.sadtech.social.core.service.RawEventService;
+import lombok.extern.slf4j.Slf4j;
+import org.sadtech.vkbot.core.service.RawEventService;
 
-// todo [upagge] [12/07/2019]: Рефакторинг - отказаться от наследования
-public class EventDistributor extends AbstractBasketSubscribe<JsonObject, JsonObject> implements Runnable {
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-    private static final Logger log = Logger.getLogger(EventDistributor.class);
+@Slf4j
+public class EventDistributor implements Runnable {
 
     private final RawEventService rawEventService;
+    private final Set<AbstractBasketSubscribe> basketSubscribes;
 
-    public EventDistributor(RawEventService rawEventService) {
+    public EventDistributor(RawEventService rawEventService, Set<AbstractBasketSubscribe> basketSubscribes) {
         this.rawEventService = rawEventService;
+        this.basketSubscribes = basketSubscribes;
         log.info("EventDistributor инициализирован");
     }
 
     @Override
     public void run() {
         while (true) {
-            if (rawEventService.getJsonObjects().peek() != null) {
-                JsonObject event = rawEventService.getJsonObjects().poll();
-                log.info("Добавлено новое событие");
-                super.update(event);
-            }
+            Optional.ofNullable(rawEventService.getJsonObjects())
+                    .ifPresent(events -> events.forEach(this::goNextSubscribe));
         }
     }
 
-    @Override
-    protected boolean check(JsonObject object) {
-        return false;
-    }
-
-    @Override
-    public void processing(JsonObject object) {
-
+    private boolean goNextSubscribe(JsonObject object) {
+        AtomicBoolean flag = new AtomicBoolean(false);
+        basketSubscribes.stream()
+                .filter(basketSubscribe -> basketSubscribe.check(object))
+                .forEach(basketSubscribe -> {
+                    basketSubscribe.update(object);
+                    flag.set(true);
+                });
+        return flag.get();
     }
 }

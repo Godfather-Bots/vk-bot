@@ -7,26 +7,17 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.exceptions.LongPollServerKeyExpiredException;
 import com.vk.api.sdk.objects.callback.longpoll.responses.GetLongPollEventsResponse;
 import com.vk.api.sdk.objects.groups.LongPollServer;
-import org.apache.log4j.Logger;
-import org.sadtech.social.core.repository.impl.EventRepositoryQueue;
-import org.sadtech.social.core.service.RawEventService;
-import org.sadtech.social.core.service.impl.RawEventServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.sadtech.vkbot.core.config.VkConnect;
+import org.sadtech.vkbot.core.service.RawEventService;
 
+@Slf4j
 public class EventListenerVk implements Runnable {
-
-    private static final Logger log = Logger.getLogger(EventListenerVk.class);
 
     private final VkApiClient vk;
     private final GroupActor actor;
     private static final Integer DEFAULT_WAIT_TIME = 25;
     private final RawEventService rawEventService;
-
-    public EventListenerVk(VkConnect vkConnect) {
-        vk = vkConnect.getVkApiClient();
-        actor = vkConnect.getGroupActor();
-        rawEventService = new RawEventServiceImpl(new EventRepositoryQueue());
-    }
 
     public EventListenerVk(VkConnect vkConnect, RawEventService rawEventService) {
         vk = vkConnect.getVkApiClient();
