@@ -2,25 +2,20 @@ package org.sadtech.vkbot.core.distribution.subscriber;
 
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.messages.MessageAttachmentType;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.sadtech.social.core.domain.BoxAnswer;
 import org.sadtech.social.core.exception.PaymentException;
 import org.sadtech.social.core.service.AccountService;
-import org.sadtech.social.core.service.sender.Sent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sadtech.social.core.service.sender.Sending;
 
+@Slf4j
+@RequiredArgsConstructor
 public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountSubscribe.class);
-
     private final AccountService accountService;
-    private final Sent sent;
+    private final Sending sending;
     private BoxAnswer answerSuccessfulPayment;
-
-    public AccountSubscribe(AccountService accountService, Sent sent) {
-        this.accountService = accountService;
-        this.sent = sent;
-    }
 
     @Override
     public boolean check(Message userMessage) {
@@ -35,11 +30,11 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
             try {
                 Integer valueSum = Integer.valueOf(message.getAttachments().get(0).getLink().getTitle().split(" ")[0]);
                 if (accountService.pay(Integer.valueOf(message.getText()), message.getPeerId(), valueSum) && answerSuccessfulPayment != null) {
-                    sent.send(message.getPeerId(), answerSuccessfulPayment);
+                    sending.send(message.getPeerId(), answerSuccessfulPayment);
                 }
             } catch (PaymentException e) {
                 log.error(e.getMessage());
-                sent.send(message.getPeerId(), BoxAnswer.builder().message(e.getDescription()).build());
+                sending.send(message.getPeerId(), BoxAnswer.builder().message(e.getDescription()).build());
             }
         }
     }

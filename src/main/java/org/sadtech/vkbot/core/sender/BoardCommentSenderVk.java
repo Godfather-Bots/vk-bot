@@ -10,11 +10,12 @@ import org.sadtech.social.core.domain.keyboard.KeyBoardButton;
 import org.sadtech.social.core.domain.keyboard.KeyBoardLine;
 import org.sadtech.social.core.domain.keyboard.button.KeyBoardButtonText;
 import org.sadtech.social.core.exception.MailSendException;
-import org.sadtech.social.core.service.sender.Sent;
+import org.sadtech.social.core.service.sender.SendType;
+import org.sadtech.social.core.service.sender.Sending;
 import org.sadtech.vkbot.core.config.VkConnect;
 import org.sadtech.vkbot.core.utils.VkInsertData;
 
-public class BoardCommentSenderVk implements Sent {
+public class BoardCommentSenderVk implements Sending {
 
     private final VkApiClient vkApiClient;
     private final GroupActor groupActor;
@@ -55,5 +56,10 @@ public class BoardCommentSenderVk implements Sent {
         } catch (ApiException | ClientException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public SendType getType() {
+        return SendType.PUBLIC;
     }
 }

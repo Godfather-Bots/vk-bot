@@ -10,14 +10,13 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserMin;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.sadtech.vkbot.core.config.VkConnect;
 
 import java.util.List;
 
+@Slf4j
 public class VkApi {
-
-    private static final Logger log = Logger.getLogger(String.valueOf(VkApi.class));
 
     private final VkApiClient vk;
     private final ServiceActor actor;
@@ -36,7 +35,7 @@ public class VkApi {
             JsonObject object = parser.parse(temp.get(0).toString()).getAsJsonObject();
             userMin = gson.fromJson(object, UserMin.class);
         } catch (ApiException | ClientException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
         return userMin;
     }
@@ -46,7 +45,7 @@ public class VkApi {
         try {
             temp = vk.users().get(actor).userIds(String.valueOf(id)).fields(Fields.UNIVERSITIES).execute();
         } catch (ApiException | ClientException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
         return temp != null ? temp.get(0).getUniversities().get(0).getName() : null;
     }
@@ -56,7 +55,7 @@ public class VkApi {
         try {
             temp = vk.users().get(actor).userIds(String.valueOf(id)).fields(Fields.CITY).execute();
         } catch (ApiException | ClientException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
         if (temp != null && checkCity(temp)) {
             return temp.get(0).getCity().getTitle();

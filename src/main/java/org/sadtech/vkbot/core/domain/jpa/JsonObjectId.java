@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class JsonObjectId extends BasicEntity {
 
-    @Column(name = "json", length = 500)
+    @Column(name = "json", length = 3000)
     private String json;
 
     public JsonObjectId(String json) {

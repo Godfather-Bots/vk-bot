@@ -20,7 +20,10 @@ public class RawEventRepositorySet implements RawEventRepository {
         jsonObjects.clear();
     }
 
+    @Override
     public Set<JsonObject> findNewEvent() {
-        return jsonObjects;
+        Set<JsonObject> copy = new HashSet<>(jsonObjects);
+        jsonObjects.removeAll(copy);
+        return copy;
     }
 }

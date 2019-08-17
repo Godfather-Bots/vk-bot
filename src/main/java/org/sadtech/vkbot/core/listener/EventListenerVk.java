@@ -50,7 +50,7 @@ public class EventListenerVk implements Runnable {
     }
 
     private LongPollServer getLongPollServer() throws ClientException, ApiException {
-        log.info("LongPoll сервер инициализирован");
+        log.debug("LongPoll сервер инициализирован");
         if (actor != null) {
             return vk.groups().getLongPollServer(actor, actor.getGroupId()).execute();
         } else {

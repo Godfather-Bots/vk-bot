@@ -6,10 +6,11 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Keyboard;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.sadtech.social.core.domain.BoxAnswer;
 import org.sadtech.social.core.domain.keyboard.KeyBoard;
-import org.sadtech.social.core.service.sender.Sent;
+import org.sadtech.social.core.service.sender.SendType;
+import org.sadtech.social.core.service.sender.Sending;
 import org.sadtech.vkbot.core.config.VkConnect;
 import org.sadtech.vkbot.core.convert.KeyBoardConvert;
 import org.sadtech.vkbot.core.utils.VkInsertData;
@@ -17,9 +18,8 @@ import org.sadtech.vkbot.core.utils.VkInsertData;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MailSenderVk implements Sent {
-
-    private static final Logger log = Logger.getLogger(MailSenderVk.class);
+@Slf4j
+public class MailSenderVk implements Sending {
 
     private final VkApiClient vkApiClient;
     private final GroupActor groupActor;
@@ -75,13 +75,18 @@ public class MailSenderVk implements Sent {
         try {
             messages.execute();
         } catch (ApiException | ClientException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
     }
 
     @Override
     public void send(Integer integer, Integer integer1, BoxAnswer boxAnswer) {
 
+    }
+
+    @Override
+    public SendType getType() {
+        return SendType.PRIVATE;
     }
 
 }

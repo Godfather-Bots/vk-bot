@@ -26,7 +26,6 @@
         <social.core.ver>0.6.3-SNAPSHOT</social.core.ver>
 
         <vksdk.ver>0.5.13-FORK</vksdk.ver>
-        <log4j.ver>1.2.17</log4j.ver>
     </properties>
 
     <dependencies>
@@ -34,12 +33,6 @@
             <groupId>com.vk.api</groupId>
             <artifactId>sdk</artifactId>
             <version>${vksdk.ver}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.ver}</version>
         </dependency>
 
         <dependency>
