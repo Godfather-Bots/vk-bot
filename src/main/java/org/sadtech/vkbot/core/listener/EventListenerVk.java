@@ -8,7 +8,7 @@ import com.vk.api.sdk.exceptions.LongPollServerKeyExpiredException;
 import com.vk.api.sdk.objects.callback.longpoll.responses.GetLongPollEventsResponse;
 import com.vk.api.sdk.objects.groups.LongPollServer;
 import lombok.extern.slf4j.Slf4j;
-import org.sadtech.vkbot.core.config.VkConnect;
+import org.sadtech.vkbot.config.VkConnect;
 import org.sadtech.vkbot.core.service.RawEventService;
 
 @Slf4j

@@ -1,6 +1,6 @@
 package org.sadtech.vkbot.core.distribution.subscriber;
 
-import org.sadtech.vkbot.core.convert.Convert;
+import org.sadtech.vkbot.convert.Convert;
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;

@@ -30,11 +30,11 @@ public class AccountSubscribe extends AbstractBasketSubscribe<Message, Message> 
             try {
                 Integer valueSum = Integer.valueOf(message.getAttachments().get(0).getLink().getTitle().split(" ")[0]);
                 if (accountService.pay(Integer.valueOf(message.getText()), message.getPeerId(), valueSum) && answerSuccessfulPayment != null) {
-                    sending.send(message.getPeerId(), answerSuccessfulPayment);
+                    sending.send(message.getPeerId().longValue(), answerSuccessfulPayment);
                 }
             } catch (PaymentException e) {
                 log.error(e.getMessage());
-                sending.send(message.getPeerId(), BoxAnswer.builder().message(e.getDescription()).build());
+                sending.send(message.getPeerId().longValue(), BoxAnswer.builder().message(e.getDescription()).build());
             }
         }
     }

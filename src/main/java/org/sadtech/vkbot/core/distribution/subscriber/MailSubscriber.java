@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.vk.api.sdk.objects.messages.Message;
 import org.sadtech.social.core.domain.content.Mail;
 import org.sadtech.social.core.service.MailService;
-import org.sadtech.vkbot.core.convert.Convert;
+import org.sadtech.vkbot.convert.Convert;
 import org.sadtech.vkbot.core.convert.MessageMailConvert;
 
 public class MailSubscriber extends AbstractBasketSubscribe<JsonObject, Message> {

@@ -11,7 +11,7 @@ import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserMin;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import lombok.extern.slf4j.Slf4j;
-import org.sadtech.vkbot.core.config.VkConnect;
+import org.sadtech.vkbot.config.VkConnect;
 
 import java.util.List;
 

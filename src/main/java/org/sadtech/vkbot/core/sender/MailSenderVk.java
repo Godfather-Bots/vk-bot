@@ -11,9 +11,9 @@ import org.sadtech.social.core.domain.BoxAnswer;
 import org.sadtech.social.core.domain.keyboard.KeyBoard;
 import org.sadtech.social.core.service.sender.SendType;
 import org.sadtech.social.core.service.sender.Sending;
-import org.sadtech.vkbot.core.config.VkConnect;
+import org.sadtech.vkbot.config.VkConnect;
 import org.sadtech.vkbot.core.convert.KeyBoardConvert;
-import org.sadtech.vkbot.core.utils.VkInsertData;
+import org.sadtech.vkbot.utils.VkInsertData;
 
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,14 +34,14 @@ public class MailSenderVk implements Sending {
     }
 
     @Override
-    public void send(Integer personId, BoxAnswer boxAnswer) {
-        MessagesSendQuery messagesSendQuery = createMessage(boxAnswer, personId);
+    public void send(Long personId, BoxAnswer boxAnswer) {
+        MessagesSendQuery messagesSendQuery = createMessage(boxAnswer, personId.longValue());
         sendMessage(messagesSendQuery);
     }
 
-    private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Integer peerId) {
-        MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId)
-                .message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId))
+    private MessagesSendQuery createMessage(BoxAnswer boxAnswer, Long peerId) {
+        MessagesSendQuery messages = vkApiClient.messages().send(groupActor).peerId(peerId.intValue())
+                .message(vkInsertData.insertWords(boxAnswer.getMessage(), peerId.intValue()))
                 .randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE));
         messages.keyboard(convertKeyBoard(boxAnswer.getKeyBoard()));
 
@@ -50,7 +50,7 @@ public class MailSenderVk implements Sending {
         }
         if (boxAnswer.getStickerId() != null) {
             try {
-                vkApiClient.messages().send(groupActor).peerId(peerId).stickerId(boxAnswer.getStickerId())
+                vkApiClient.messages().send(groupActor).peerId(peerId.intValue()).stickerId(boxAnswer.getStickerId())
                         .randomId(ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE)).execute();
             } catch (ApiException | ClientException e) {
                 log.error(e.getMessage());
@@ -80,7 +80,7 @@ public class MailSenderVk implements Sending {
     }
 
     @Override
-    public void send(Integer integer, Integer integer1, BoxAnswer boxAnswer) {
+    public void send(Long integer, Long integer1, BoxAnswer boxAnswer) {
 
     }
 

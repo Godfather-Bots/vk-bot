@@ -23,9 +23,8 @@
     </build>
 
     <properties>
-        <social.core.ver>0.6.3-SNAPSHOT</social.core.ver>
-
-        <vksdk.ver>0.5.13-FORK</vksdk.ver>
+        <social.autoresponder.ver>0.6.6-SNAPSHOT</social.autoresponder.ver>
+        <vksdk.ver>1.0.6</vksdk.ver>
     </properties>
 
     <dependencies>
@@ -34,11 +33,10 @@
             <artifactId>sdk</artifactId>
             <version>${vksdk.ver}</version>
         </dependency>
-
         <dependency>
             <groupId>org.sadtech.social</groupId>
-            <artifactId>social-core</artifactId>
-            <version>${social.core.ver}</version>
+            <artifactId>social-autoresponder</artifactId>
+            <version>${social.autoresponder.ver}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>

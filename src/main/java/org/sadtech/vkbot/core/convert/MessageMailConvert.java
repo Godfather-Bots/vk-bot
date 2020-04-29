@@ -7,6 +7,7 @@ import org.sadtech.social.core.domain.content.Mail;
 import org.sadtech.social.core.domain.content.attachment.Attachment;
 import org.sadtech.social.core.domain.content.attachment.AudioMessage;
 import org.sadtech.social.core.domain.content.attachment.Geo;
+import org.sadtech.vkbot.convert.Convert;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -21,8 +22,8 @@ public class MessageMailConvert implements Convert<Message, Mail> {
         Mail mail = new Mail();
         mail.setText(message.getText());
         mail.setCreateDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(message.getDate()), TimeZone.getDefault().toZoneId()));
-        mail.setId(message.getId());
-        mail.setPersonId(message.getPeerId());
+        mail.setId(message.getId().longValue());
+        mail.setPersonId(message.getPeerId().longValue());
         List<MessageAttachment> attachments = message.getAttachments();
 
         if (attachments != null && !attachments.isEmpty()) {
@@ -54,8 +55,8 @@ public class MessageMailConvert implements Convert<Message, Mail> {
         Mail mail = new Mail();
         mail.setText(foreignMessage.getText());
         mail.setCreateDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(foreignMessage.getDate()), TimeZone.getDefault().toZoneId()));
-        mail.setId(foreignMessage.getId());
-        mail.setPersonId(foreignMessage.getPeerId());
+        mail.setId(foreignMessage.getId().longValue());
+        mail.setPersonId(foreignMessage.getPeerId().longValue());
 
         List<MessageAttachment> attachments = foreignMessage.getAttachments();
         if (attachments != null && !attachments.isEmpty()) {

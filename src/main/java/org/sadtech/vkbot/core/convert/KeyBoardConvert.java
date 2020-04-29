@@ -11,7 +11,7 @@ import org.sadtech.social.core.domain.keyboard.KeyBoardButton;
 import org.sadtech.social.core.domain.keyboard.KeyBoardLine;
 import org.sadtech.social.core.domain.keyboard.button.KeyBoardButtonAccount;
 import org.sadtech.social.core.domain.keyboard.button.KeyBoardButtonText;
-import org.sadtech.vkbot.core.config.VkConnect;
+import org.sadtech.vkbot.config.VkConnect;
 
 import java.util.ArrayList;
 import java.util.List;
