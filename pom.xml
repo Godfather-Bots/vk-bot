@@ -4,10 +4,132 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.sadtech.vkbot</groupId>
-    <artifactId>vkbot-core</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <groupId>org.sadtech.vk.bot</groupId>
+    <artifactId>vkbot-sdk</artifactId>
+    <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
+
+    <name>VK Bot</name>
+    <description>Библиотека для написания ботов для социальной сети ВКонтакте.</description>
+    <url>https://github.com/uPagge/vk-bot</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/uPagge/vk-bot.git</connection>
+        <url>https://github.com/uPagge/vk-bot</url>
+        <developerConnection>scm:git:https://github.com/uPagge/vk-bot.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+    <properties>
+        <social.bot.ver>1.0.0-RELEASE</social.bot.ver>
+
+        <vksdk.ver>1.0.6</vksdk.ver>
+        <spring.jpa.ver>2.1.3.RELEASE</spring.jpa.ver>
+        <lombock.ver>1.18.12</lombock.ver>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.vk.api</groupId>
+            <artifactId>sdk</artifactId>
+            <version>${vksdk.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sadtech.social</groupId>
+            <artifactId>social-bot</artifactId>
+            <version>${social.bot.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.jpa.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombock.ver}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -22,39 +144,12 @@
         </plugins>
     </build>
 
-    <properties>
-        <social.autoresponder.ver>0.6.6-SNAPSHOT</social.autoresponder.ver>
-        <vksdk.ver>1.0.6</vksdk.ver>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.vk.api</groupId>
-            <artifactId>sdk</artifactId>
-            <version>${vksdk.ver}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.sadtech.social</groupId>
-            <artifactId>social-autoresponder</artifactId>
-            <version>${social.autoresponder.ver}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>2.1.3.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>2.1.3.RELEASE</version>
-        </dependency>
-
-    </dependencies>
-
     <developers>
         <developer>
+            <id>uPagge</id>
             <name>Struchkov Mark</name>
             <email>upagge@mail.ru</email>
+            <organization>SADTECH</organization>
         </developer>
     </developers>
 
