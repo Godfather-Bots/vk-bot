@@ -12,6 +12,12 @@
     <name>VK Bot</name>
     <description>Библиотека для написания ботов для социальной сети ВКонтакте.</description>
     <url>https://github.com/uPagge/vk-bot</url>
+    <licenses>
+        <license>
+            <name>BSD 3-Clause "New" or "Revised" License</name>
+            <url>https://github.com/uPagge/vk-bot/blob/master/LICENSE</url>
+        </license>
+    </licenses>
 
     <scm>
         <connection>scm:git:https://github.com/uPagge/vk-bot.git</connection>
