@@ -37,7 +37,7 @@
         <social.bot.ver>1.0.0-RELEASE</social.bot.ver>
 
         <vksdk.ver>1.0.6</vksdk.ver>
-        <spring.jpa.ver>2.1.3.RELEASE</spring.jpa.ver>
+        <spring.jpa.ver>2.1.9.RELEASE</spring.jpa.ver>
         <lombock.ver>1.18.12</lombock.ver>
     </properties>
 
